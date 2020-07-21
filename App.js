@@ -12,9 +12,7 @@ import EmployeeTabs from './navigation/EmployeesTabs';
 
 import Login from './src/screens/Login';
 
-
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
