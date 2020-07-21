@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View, processColor } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 // Environment variables
 import getEnvVars from '../../environment';
 const { apiUrl } = getEnvVars();
 
-export default function FetchData(props) {
+export default function FetchAll(props) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -22,6 +22,7 @@ export default function FetchData(props) {
     fetch(`${apiUrl}${props.endpoint}`, requestOptions)
       .then((response) => response.json())
       .then((json) => {
+        console.log(json)
         setData(json)
         setOriginalData(json);
       })
