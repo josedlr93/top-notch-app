@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import FetchData from '../components/FetchData';
+import FetchAll from '../../components/FetchAll';
 
 export default function Employees() {
 
@@ -16,6 +16,6 @@ export default function Employees() {
   )
 
   return (
-    <FetchData requestMethod='GET' endpoint='contact' display={display} />
+    <FetchAll requestMethod='GET' endpoint='contact' display={display} />
   );
 }

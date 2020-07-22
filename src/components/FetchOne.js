@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View, processColor } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
-// Dev variables
+// Environment variables
 import getEnvVars from '../../environment';
 const { apiUrl } = getEnvVars();
 
-export default function FetchData(props) {
+export default function FetchOne(props) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -14,11 +14,13 @@ export default function FetchData(props) {
     method: props.requestMethod,
     redirect: 'follow'
   };
-  
+
   useEffect(() => {
     fetch(`${apiUrl}${props.endpoint}`, requestOptions)
       .then((response) => response.json())
-      .then((json) => setData(json))
+      .then((json) => {
+        setData([json])
+      })
       .catch((error) => {
         console.error(error);
         setError(true);
@@ -28,7 +30,7 @@ export default function FetchData(props) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      {isLoading ? <ActivityIndicator /> : error ? <View>Error</View> : (
+      {isLoading ? <ActivityIndicator /> : error ? <Text>Error</Text> : (
         <FlatList
           data={data}
           keyExtractor={({ _id }, index) => _id}
