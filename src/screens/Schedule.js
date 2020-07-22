@@ -8,7 +8,7 @@ import {
 export default function Schedule({ navigation }) {
   
   return (
-    <View styles={styles.container}>
+    <View style={styles.container}>
       <Text>Schedule</Text>
     </View>
   );

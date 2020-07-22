@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Employees from '../src/screens/Employees';
+import Employees from '../../src/screens/employees/Employees';
 
 const Tab = createBottomTabNavigator();
 

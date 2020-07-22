@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import FetchAll from '../components/FetchAll';
+import FetchAll from '../../components/FetchAll';
 
 export default function Trucks() {
 

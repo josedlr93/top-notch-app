@@ -22,7 +22,6 @@ export default function FetchAll(props) {
     fetch(`${apiUrl}${props.endpoint}`, requestOptions)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json)
         setData(json)
         setOriginalData(json);
       })
@@ -37,11 +36,9 @@ export default function FetchAll(props) {
     setSearch(text);
 
     const newData = originalData.filter(item => {
-      console.log(item);
       const itemData = `${item.first_name.toUpperCase()} ${item.last_name.toUpperCase()}`;
-
       const textData = text.toUpperCase();
-
+      
       return itemData.indexOf(textData) > -1;
     });
 
