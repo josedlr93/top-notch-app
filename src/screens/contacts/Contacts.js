@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 
 import FetchAll from '../../components/FetchAll';
 
-export default function Contacts({ route, navigation }) {
+export default function Contacts({ navigation }) {
 
   const displayAll = ({ item }) => (
     <TouchableHighlight

@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName='Login'
+        initialRouteName='Login'
         screenOptions={{
           headerStyle: {
             backgroundColor: '#7a003c'
@@ -27,30 +27,30 @@ export default function App() {
           }
         }}
       >
-        <Stack.Screen name="Login" component={Login}
-          options={{ 
+        <Stack.Screen name='Login' component={Login}
+          options={{
             title: 'Login'
           }}
         />
-        <Stack.Screen name="Home" component={HomeTabs}
-          options={{ 
-            title: 'Home', 
+        <Stack.Screen name='Home' component={HomeTabs}
+          options={{
+            title: 'Home',
             headerLeft: null
           }}
         />
-        <Stack.Screen name="Contacts" component={ContactStack}
-          options={{ 
-            title: 'Contacts' 
+        <Stack.Screen name='Contacts' component={ContactStack}
+          options={{
+            title: 'Contacts'
           }}
         />
-        <Stack.Screen name="Trucks" component={TruckStack}
-          options={{ 
-            title: 'Trucks' 
+        <Stack.Screen name='Trucks' component={TruckStack}
+          options={{
+            title: 'Trucks'
           }}
         />
-        <Stack.Screen name="Employees" component={EmployeeStack}
-          options={{ 
-            title: 'Employees' 
+        <Stack.Screen name='Employees' component={EmployeeStack}
+          options={{
+            title: 'Employees'
           }}
         />
       </Stack.Navigator>
