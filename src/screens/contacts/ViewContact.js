@@ -15,7 +15,7 @@ export default function ViewContacts({ route, navigation }) {
       <Text>Address: {item.address}</Text>
       <ButtonGroup
         buttonOneTitle='Update'
-        buttonOnePress={() => navigation.navigate('UpdateContact')}
+        buttonOnePress={() => navigation.navigate('Update Contact')}
         buttonTwoTitle='Delete'
         buttonTwoPress={() => navigation.goBack()}
       />

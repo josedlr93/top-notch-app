@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ContactTabs from './ContactTabs';
@@ -11,25 +10,10 @@ const Stack = createStackNavigator();
 
 export default function ContactStack() {
   return (
-    <Stack.Navigator
-      initialRouteName='Contacts'
-    >
-      <Stack.Screen name="Contacts" component={ContactTabs}
-        options={{
-          title: 'Contacts'
-        }}
-      />
-      <Stack.Screen name="ViewContact" component={ViewContact}
-        options={{
-          title: 'View Contact'
-        }}
-      />
-      <Stack.Screen name="UpdateContact" component={UpdateContact}
-        options={{
-          title: 'Update Contact'
-        }}
-      />
-
+    <Stack.Navigator initialRouteName='Contacts' >
+      <Stack.Screen name="Contacts" component={ContactTabs} />
+      <Stack.Screen name="View Contact" component={ViewContact} />
+      <Stack.Screen name="Update Contact" component={UpdateContact} />
     </Stack.Navigator>
   );
 }

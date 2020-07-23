@@ -12,7 +12,7 @@ export default function Contacts({ navigation }) {
       underlayColor="#DDDDDD"
       onPress={() => {
         console.log('pressed');
-        navigation.navigate('ViewContact', { id: item._id })
+        navigation.navigate('View Contact', { id: item._id })
       }}>
       <ListItem
         title={`${item.first_name}, ${item.last_name}`}

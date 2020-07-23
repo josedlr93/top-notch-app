@@ -11,7 +11,7 @@ export default function Directories ({ navigation })  {
       <Button
         title="Go to Contacts"
         onPress={() =>
-          navigation.navigate('Contacts')
+          navigation.navigate('ContactStack')
         }
       />
       <Button

@@ -10,7 +10,7 @@ export default function ContactTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Contacts" component={Contacts} />
-      <Tab.Screen name='AddContact' component={AddContact} />
+      <Tab.Screen name='Add Contact' component={AddContact} />
     </Tab.Navigator>
   );
 }
