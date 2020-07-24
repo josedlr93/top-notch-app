@@ -47,7 +47,7 @@ export default function SearchableList(props) {
       underlayColor="#DDDDDD"
       onPress={() => {
         console.log('pressed');
-        props.selected(item._id)
+        props.handleSelected(item)
       }}>
       <ListItem
         title={props.formats.title(item)}

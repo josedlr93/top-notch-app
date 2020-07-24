@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, TouchableHighlight } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View, ActivityIndicator } from 'react-native';
 
 import SearchableList from '../../components/SearchableList';
 import { getItems } from '../../services/api';
@@ -41,7 +40,7 @@ export default function Contacts({ navigation }) {
           endpoint='contact' 
           data={data}
           formats={formats}
-          selected={(id) => navigation.navigate('View Contact', { id })}
+          handleSelected={(item) => navigation.navigate('View Contact', { item })}
         />
       )}
     </View>
