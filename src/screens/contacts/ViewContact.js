@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 
 import ButtonGroup from '../../components/ButtonGroup';
+import { deleteItem } from '../../services/api';
 
 export default function ViewContacts({ route, navigation }) {
   const item = route.params.item;
@@ -29,7 +30,13 @@ export default function ViewContacts({ route, navigation }) {
         buttonOneTitle='Update'
         buttonOnePress={() => navigation.navigate('Update Contact', { item })}
         buttonTwoTitle='Delete'
-        buttonTwoPress={() => navigation.goBack()}
+        buttonTwoPress={() => {
+          deleteItem(`contact/${item._id}`)
+          .then((json) => alert(json.message))
+          .then(() => navigation.goBack())
+          .catch(console.error);
+          
+        }}
       />
     </View>
   );

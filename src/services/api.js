@@ -39,4 +39,22 @@ export const getItems = (endpoint) => {
     })
 };
 
-export default { putItem, getItems };
+export const deleteItem = (endpoint) => {
+  var requestOptions = {
+    method: 'DELETE',
+    redirect: 'follow'
+  };
+
+  return fetch(`${apiUrl}${endpoint}`, requestOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      return error;
+    })
+};
+
+
+
+export default { putItem, getItems, deleteItem };
