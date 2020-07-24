@@ -1,34 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, View } from 'react-native';
-import { SearchBar } from 'react-native-elements';
-
-import { getItems } from '../services/api';
+import React, { useState } from 'react';
+import { TouchableHighlight, FlatList, View } from 'react-native';
+import { SearchBar, ListItem } from 'react-native-elements';
 
 export default function SearchableList(props) {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(false);
-  const [search, setSearch] = useState(null);
-  const [originalData, setOriginalData] = useState([]);
-
-  useEffect(() => {
-    getItems(props.endpoint)
-      .then((json) => {
-        setData(json)
-        setOriginalData(json);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const [data, setData] = useState(props.data);
+  const [search, setSearch] = useState('');
 
   const searchFilter = text => {
     setSearch(text);
 
-    const newData = originalData.filter(item => {
-      const itemData = `${item.first_name.toUpperCase()} ${item.last_name.toUpperCase()}`;
+    const newData = props.data.filter(item => {
+      const itemData = props.formats.itemData(item)
       const textData = text.toUpperCase();
 
       return itemData.indexOf(textData) > -1;
@@ -47,6 +29,7 @@ export default function SearchableList(props) {
       value={search}
     />
   );
+
   const separator = () => (
     <View
       style={{
@@ -58,17 +41,28 @@ export default function SearchableList(props) {
     />
   )
 
+  const listItems = ({ item }) => (
+    <TouchableHighlight
+      activeOpacity={0.6}
+      underlayColor="#DDDDDD"
+      onPress={() => {
+        console.log('pressed');
+        props.selected(item._id)
+      }}>
+      <ListItem
+        title={props.formats.title(item)}
+        subtitle={props.formats.subtitle(item)}
+      />
+    </TouchableHighlight>
+  )
+
   return (
-    <View style={{ flex: 1, padding: 24 }}>
-      {isLoading ? <ActivityIndicator /> : error ? <Text>Error</Text> : (
-        <FlatList
-          data={data}
-          keyExtractor={({ _id }, index) => _id}
-          renderItem={props.display}
-          ListHeaderComponent={header}
-          ItemSeparatorComponent={separator}
-        />
-      )}
-    </View>
+    <FlatList
+      data={data}
+      keyExtractor={({ _id }, index) => _id}
+      renderItem={listItems}
+      ListHeaderComponent={header}
+      ItemSeparatorComponent={separator}
+    />
   );
 }
