@@ -23,4 +23,20 @@ export const putItem = (details, endpoint) => {
     })   
 };
 
-export default { putItem };
+export const getItems = (endpoint) => {
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+
+  return fetch(`${apiUrl}${endpoint}`, requestOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      return error;
+    })
+};
+
+export default { putItem, getItems };

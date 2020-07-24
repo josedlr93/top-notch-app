@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
-import FetchAll from '../../components/FetchAll';
+import SearchableList from '../../components/SearchableList';
 
 export default function Contacts({ navigation }) {
 
@@ -22,7 +22,7 @@ export default function Contacts({ navigation }) {
   )
 
   return (
-    <FetchAll requestMethod='GET' endpoint='contact' display={displayAll} />
+    <SearchableList endpoint='contact' display={displayAll} />
   );
 
 }
