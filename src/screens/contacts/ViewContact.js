@@ -1,9 +1,8 @@
-import React, { useLayoutEffect }from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
 import FetchOne from '../../components/FetchOne';
 import ButtonGroup from '../../components/ButtonGroup';
-import { HeaderBackButton } from '@react-navigation/stack';
 
 export default function ViewContacts({ route, navigation }) {
   
@@ -15,7 +14,7 @@ export default function ViewContacts({ route, navigation }) {
       <Text>Address: {item.address}</Text>
       <ButtonGroup
         buttonOneTitle='Update'
-        buttonOnePress={() => navigation.navigate('Update Contact')}
+        buttonOnePress={() => navigation.navigate('Update Contact', { item })}
         buttonTwoTitle='Delete'
         buttonTwoPress={() => navigation.goBack()}
       />
