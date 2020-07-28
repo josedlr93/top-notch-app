@@ -2,12 +2,12 @@
 import getEnvVars from '../../environment';
 const { apiUrl } = getEnvVars();
 
-export const putItem = (details, endpoint) => {
+export const editItems = (requestMethod, details, endpoint) => {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var requestOptions = {
-    method: 'PUT',
+    method: requestMethod,
     headers: myHeaders,
     body: JSON.stringify(details),
     redirect: 'follow'
@@ -57,4 +57,4 @@ export const deleteItem = (endpoint) => {
 
 
 
-export default { putItem, getItems, deleteItem };
+export default { editItems, getItems, deleteItem };

@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native'
 
 import SearchableList from '../../components/SearchableList';
 import { getItems } from '../../services/api';
 
-export default function Contacts({ navigation }) {
+export default function AllContacts({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    getItems('contact')
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => {
-        console.error(error);
-        setError(true);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getItems('contact')
+        .then((json) => {
+          setData(json);
+        })
+        .catch((error) => {
+          console.error(error);
+          setError(true);
+        })
+        .finally(() => setLoading(false));
+
+        return () => {setLoading(true)}
+      },[],
+    )
+  );
 
   const formats = {
     itemData(item){
