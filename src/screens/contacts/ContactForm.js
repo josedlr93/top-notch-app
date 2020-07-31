@@ -49,7 +49,7 @@ export default function ContactForm(props) {
       })
   });
 
-  const submitItem = (values, resetForm) => {
+  const submitItem = (values) => {
     editItems(props.requestMethod, {
       first_name: values.firstName,
       last_name: values.lastName,
@@ -62,7 +62,6 @@ export default function ContactForm(props) {
           setEmailError(true);
         } else {
           props.redirect(item);
-          resetForm();
         }
       })
       .catch((error) => console.log(error));
@@ -84,7 +83,7 @@ export default function ContactForm(props) {
           }}
           validationSchema={contactSchema}
           onSubmit={(values, actions) => {
-            submitItem(values, () => actions.resetForm);
+            submitItem(values);
           }}
         >
           {({values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit}) => (

@@ -9,8 +9,7 @@ export default function AddContact({ route, navigation }) {
       endpoint={`contact`}
       params={route.params}
       redirect={(item) => {
-        navigation.goBack();
-        navigation.navigate('View Contact', { item })
+        navigation.replace('View Contact', { item })
       }}
       navigation={navigation}
     />
