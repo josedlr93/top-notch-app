@@ -46,7 +46,6 @@ export default function SearchableList(props) {
       activeOpacity={0.6}
       underlayColor="#DDDDDD"
       onPress={() => {
-        console.log('pressed');
         props.handleSelected(item)
       }}>
       <ListItem

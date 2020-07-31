@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 export default function ContactStack() {
   return (
-    <Stack.Navigator >
+    <Stack.Navigator>
       <Stack.Screen name="Contacts" component={ContactTabs}
         options={({ route }) => ({
           headerTitle: getFocusedRouteNameFromRoute(route),

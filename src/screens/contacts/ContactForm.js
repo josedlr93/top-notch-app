@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  TouchableWithoutFeedback, 
+  Keyboard 
+} from 'react-native';
 import { Input } from 'react-native-elements';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { validate } from 'validate.js';
 
 import ButtonGroup from '../../components/ButtonGroup';
 import { editItems as editItems } from '../../services/api';
@@ -8,23 +17,55 @@ import { editItems as editItems } from '../../services/api';
 export default function ContactForm(props) {
   const params = props.params;
   const item = params ? params.item : {};
-  const [firstName, setFirstName] = useState(item.first_name);
-  const [lastName, setLastName] = useState(item.last_name);
-  const [email, setEmail] = useState(item.email);
-  const [phone, setPhone] = useState(item.phone);
-  const [address, setAddress] = useState(item.address);
+  const [emailError, setEmailError] = useState({});
 
-  const handleSubmit = () => {
+  const constraints = {
+    emailAddress: {
+      email: {
+        message: "^Please enter a valid email address"
+      }
+    },
+  };
+
+  const contactSchema = yup.object({
+    firstName: yup.string()
+      .required('First name required'),
+    lastName: yup.string()
+      .required('Last name required'),
+    email: yup.string()
+      .required('Email required')
+      .email('Invalid')
+      .test('validate-email', 'Enter a valid email', (value) => {
+        const validation = validate(value, constraints);
+        return validation === undefined ? true : false;
+      })
+      .test('duplicate-email', 'Email already in use', () => {
+        return emailError;
+      }),
+    phone: yup.string()
+      .max(10)
+      .test('check-phone', 'Enter a valid phone number', (value) => {
+        return !value ? true : value.length == 10 ? true : false;
+      })
+  });
+
+  const submitItem = (values, resetForm) => {
     editItems(props.requestMethod, {
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      phone,
-      address
+      first_name: values.firstName,
+      last_name: values.lastName,
+      email: values.email,
+      phone: values.phone,
+      address: values.address
     }, props.endpoint)
-      .then((item) => props.redirect(item))
+      .then((item) => {
+        if (item.duplicate) {
+          setEmailError(true);
+        } else {
+          props.redirect(item);
+          resetForm();
+        }
+      })
       .catch((error) => console.log(error));
-
   };
 
   return (
@@ -33,47 +74,75 @@ export default function ContactForm(props) {
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <Input label='First Name'
-            onChangeText={(text) => setFirstName(text)}
-            autoCapitalize='words'
-          >
-            {firstName}
-          </Input>
-          <Input label='Last Name'
-            onChangeText={(text) => setLastName(text)}
-            autoCapitalize='words'
-          >
-            {lastName}
-          </Input>
-          <Input label='Email'
-            onChangeText={(text) => setEmail(text)}
-            keyboardType='email-address'
-          >
-            {email}
-          </Input>
-          <Input label='Phone Number'
-            onChangeText={(text) => setPhone(text)}
-            errorStyle={{ color: 'red' }}
-            errorMessage='ENTER A VALID ERROR HERE'
-            maxLength={10}
-            keyboardType='phone-pad'
-          >
-            {phone}
-          </Input>
-          <Input label='Address'
-            onChangeText={(text) => setAddress(text)}
-            multiline={true}
-          >
-            {address}
-          </Input>
-          <ButtonGroup
-            buttonOneTitle='Submit'
-            buttonOnePress={handleSubmit}
-            buttonTwoTitle='Cancel'
-            buttonTwoPress={() => props.navigation.goBack()}
-          />
-        </View>
+        <Formik
+          initialValues={{
+            firstName: item.first_name,
+            lastName: item.last_name,
+            email: item.email,
+            phone: item.phone,
+            address: item.address
+          }}
+          validationSchema={contactSchema}
+          onSubmit={(values, actions) => {
+            submitItem(values, () => actions.resetForm);
+          }}
+        >
+          {({values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit}) => (
+            <View>
+              <Input label='First Name'
+                onChangeText={handleChange('firstName')}
+                autoCapitalize='words'
+                errorStyle={styles.error}
+                errorMessage={touched.firstName && errors.firstName}
+                onBlur={handleBlur('firstName')}
+                value={values.firstName}
+              />
+              <Input label='Last Name'
+                onChangeText={handleChange('lastName')}
+                autoCapitalize='words'
+                errorStyle={styles.error}
+                errorMessage={touched.lastName && errors.lastName}
+                onBlur={handleBlur('lastName')}
+                value={values.lastName}
+              />
+              <Input label='Email'
+                onChangeText={handleChange('email')}
+                keyboardType='email-address'
+                errorStyle={styles.error}
+                errorMessage={touched.email && errors.email}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                type='email'
+              />
+              <Input label='Phone Number'
+                onChangeText={handleChange('phone')}
+                errorStyle={styles.error}
+                errorMessage={touched.phone && errors.phone}
+                onBlur={handleBlur('phone')}
+                keyboardType='phone-pad'
+                value={values.phone}
+              />
+              <Input label='Address'
+                onChangeText={handleChange('address')}
+                multiline={true}
+                value={values.address}
+              />
+              <ButtonGroup
+                buttonOneProps={{
+                  title: 'Submit',
+                  onPress: handleSubmit,
+                  disabled: isSubmitting
+                }}
+                buttonTwoProps={{
+                  title: 'Cancel',
+                  onPress: () => {
+                    props.navigation.navigate('Contacts')
+                  }
+                }}
+              />
+            </View>
+          )}
+        </Formik>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
@@ -83,5 +152,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10
+  },
+  error: {
+    color: 'red'
   }
 });

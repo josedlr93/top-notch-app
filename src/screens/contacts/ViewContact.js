@@ -27,15 +27,18 @@ export default function ViewContacts({ route, navigation }) {
         <Text>{item.address}</Text>
       </View>
       <ButtonGroup
-        buttonOneTitle='Update'
-        buttonOnePress={() => navigation.navigate('Update Contact', { item })}
-        buttonTwoTitle='Delete'
-        buttonTwoPress={() => {
-          deleteItem(`contact/${item._id}`)
-          .then((json) => alert(json.message))
-          .then(() => navigation.goBack())
-          .catch(console.error);
-          
+        buttonOneProps={{
+          title: 'Update',
+          onPress: () => navigation.navigate('Update Contact', { item })
+        }}
+        buttonTwoProps={{
+          title: 'Delete',
+          onPress: () => {
+            deleteItem(`contact/${item._id}`)
+              .then((json) => alert(json.message))
+              .then(() => navigation.goBack())
+              .catch(console.error);
+          }
         }}
       />
     </View>
