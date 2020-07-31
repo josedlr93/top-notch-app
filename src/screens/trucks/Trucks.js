@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import FetchAll from '../../components/FetchAll';
+import SearchableList from '../../components/SearchableList';
 
 export default function Trucks() {
 
@@ -15,6 +15,6 @@ export default function Trucks() {
   )
 
   return (
-    <FetchAll requestMethod='GET' endpoint='truck' display={display} />
+    <SearchableList endpoint='truck' display={display} />
   );
 }

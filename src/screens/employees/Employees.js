@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import FetchAll from '../../components/FetchAll';
+import SearchableList from '../../components/SearchableList';
 
 export default function Employees() {
 
@@ -16,6 +16,6 @@ export default function Employees() {
   )
 
   return (
-    <FetchAll requestMethod='GET' endpoint='contact' display={display} />
+    <SearchableList endpoint='employee' display={display} />
   );
 }
