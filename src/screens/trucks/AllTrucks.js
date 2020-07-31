@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import SearchableList from '../../components/SearchableList';
 
-export default function Trucks() {
+export default function AllTrucks() {
 
   const display = ({ item }) => (
     <View>

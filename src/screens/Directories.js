@@ -1,31 +1,29 @@
 import React from 'react';
-import { Button } from 'react-native';
 import {
   StyleSheet,
   View
 } from 'react-native';
+import TouchableList from '../components/TouchableList';
 
-export default function Directories ({ navigation })  {
+export default function Directories({ navigation }) {
+  const directories = [
+    {
+      title: 'Contacts',
+      navigate: () => navigation.navigate('ContactStack')
+    },
+    {
+      title: 'Trucks',
+      navigate: () => navigation.navigate('Trucks')
+    },
+    {
+      title: 'Employees',
+      navigate: () => navigation.navigate('Employees')
+    },
+  ]
+
   return (
     <View style={styles.container}>
-      <Button
-        title="Go to Contacts"
-        onPress={() =>
-          navigation.navigate('ContactStack')
-        }
-      />
-      <Button
-        title="Go to Trucks"
-        onPress={() =>
-          navigation.navigate('Trucks')
-        }
-      />
-      <Button
-        title="Go to Employees"
-        onPress={() =>
-          navigation.navigate('Employees')
-        }
-      />
+      <TouchableList list={directories} />
     </View>
   );
 };
@@ -34,7 +32,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
