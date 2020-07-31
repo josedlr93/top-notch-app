@@ -17,7 +17,6 @@ import { editItems as editItems } from '../../services/api';
 export default function ContactForm(props) {
   const params = props.params;
   const item = params ? params.item : {};
-  const [emailError, setEmailError] = useState({});
 
   const constraints = {
     emailAddress: {
@@ -38,18 +37,15 @@ export default function ContactForm(props) {
       .test('validate-email', 'Enter a valid email', (value) => {
         const validation = validate(value, constraints);
         return validation === undefined ? true : false;
-      })
-      .test('duplicate-email', 'Email already in use', () => {
-        return emailError;
       }),
     phone: yup.string()
       .max(10)
       .test('check-phone', 'Enter a valid phone number', (value) => {
-        return !value ? true : value.length == 10 ? true : false;
+        return !value ? true : value.length === 10 ? true : false;
       })
   });
 
-  const submitItem = (values) => {
+  const submitItem = (values, setSubmitting) => {
     editItems(props.requestMethod, {
       first_name: values.firstName,
       last_name: values.lastName,
@@ -59,7 +55,8 @@ export default function ContactForm(props) {
     }, props.endpoint)
       .then((item) => {
         if (item.duplicate) {
-          setEmailError(true);
+          alert(item.message);
+          setSubmitting(false);
         } else {
           props.redirect(item);
         }
@@ -82,8 +79,8 @@ export default function ContactForm(props) {
             address: item.address
           }}
           validationSchema={contactSchema}
-          onSubmit={(values, actions) => {
-            submitItem(values);
+          onSubmit={(values, { setSubmitting }) => {
+            submitItem(values, setSubmitting);
           }}
         >
           {({values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit}) => (
