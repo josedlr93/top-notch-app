@@ -43,7 +43,6 @@ export default function AllContacts({ navigation }) {
     <View style={{ flex: 1, padding: 24 }}>
       {isLoading ? <ActivityIndicator /> : error ? <Text>Error</Text> : (
         <SearchableList 
-          endpoint='contact' 
           data={data}
           formats={formats}
           handleSelected={(item) => navigation.navigate('View Contact', { item })}

@@ -13,11 +13,11 @@ export default function Directories({ navigation }) {
     },
     {
       title: 'Trucks',
-      navigate: () => navigation.navigate('Trucks')
+      navigate: () => navigation.navigate('TruckStack')
     },
     {
       title: 'Employees',
-      navigate: () => navigation.navigate('Employees')
+      navigate: () => navigation.navigate('EmployeeStack')
     },
   ]
 
