@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer theme={Themes.TopNotch}>
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator initialRouteName='TruckStack'>
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='Home' component={HomeTabs}
           options={{

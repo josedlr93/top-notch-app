@@ -327,7 +327,7 @@ typings/
 
 ## Various settings
 
-## Other
+
 
 ### Xcode Patch ###
 *.xcodeproj/*
@@ -338,7 +338,9 @@ typings/
 
 # End of https://www.gitignore.io/api/reactnative,intellij,android,osx,xcode
 
+## Other
 node_modules/**/*
 .expo/*
 npm-debug.*
 environment.js
+*.vs
