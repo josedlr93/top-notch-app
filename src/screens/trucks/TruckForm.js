@@ -7,13 +7,13 @@ import {
   Keyboard,
   Text
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Input, CheckBox, Icon } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import ButtonGroup from '../../components/ButtonGroup';
-import { editItems as editItems } from '../../services/api';
+import { DatePicker } from '../../components/DatePicker';
+import { editItems } from '../../services/api';
 
 export default function TruckForm(props) {
   const params = props.params;
@@ -64,9 +64,8 @@ export default function TruckForm(props) {
           initialValues={{
             truckNum: item.truck_num,
             vin: item.vin,
-            cdlRequired: item.cdl_required,
-            serviceDate: item.service_date || new Date(),
-            showDatePicker: false
+            cdlRequired: item.cdl_required || false,
+            serviceDate: item.service_date,
           }}
           validationSchema={truckSchema}
           onSubmit={(values, { setSubmitting }) => {
@@ -87,20 +86,14 @@ export default function TruckForm(props) {
                 errorStyle={styles.error}
                 value={values.vin}
               />
-              {values.showDatePicker && (<DateTimePicker
-                value={values.serviceDate}
-                onChange={handleChange('serviceDate')}
-                mode='default'
-                display='default'
-              />)}
-              <Input label='Service Date'
-                value={new Date(values.serviceDate).toDateString()}
-                disabled={true}
-                rightIcon={(<Icon name='date-range' onPress={() => setFieldValue('showDatePicker', true)}/>)}
+              <DatePicker 
+                initialDateTime={values.serviceDate} 
+                handleChange={(newDate) => setFieldValue('serviceDate', newDate)}
               />
               <CheckBox
                 title='CDL Required?'
                 checked={values.cdlRequired}
+                onPress={() => setFieldValue('cdlRequired', !values.cdlRequired)}
               />
               <ButtonGroup
                 buttonOneProps={{

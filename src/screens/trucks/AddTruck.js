@@ -2,14 +2,14 @@ import React from 'react';
 
 import TruckForm from './TruckForm';
 
-export default function AddContact({ route, navigation }) {
+export default function AddTruck({ route, navigation }) {
   return (
     <TruckForm
       requestMethod='POST'
-      endpoint={`contact`}
+      endpoint={`truck`}
       params={route.params}
       redirect={(item) => {
-        navigation.replace('View Contact', { item })
+        navigation.replace('View Truck', { item })
       }}
       navigation={navigation}
     />

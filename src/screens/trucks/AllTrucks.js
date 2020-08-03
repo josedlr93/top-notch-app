@@ -35,7 +35,7 @@ export default function AllTrucks({ navigation }) {
       return `Truck ${item.truck_num}`;
     },
     subtitle(item) {
-      return item.cdl_required ? `CDL required` : `CDL not Required`;
+      return item.cdl_required ? `CDL required` : `CDL not required`;
     }
   };
 

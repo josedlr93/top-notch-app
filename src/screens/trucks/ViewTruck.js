@@ -35,7 +35,7 @@ export default function ViewTruck({ route, navigation }) {
         buttonTwoProps={{
           title: 'Delete',
           onPress: () => {
-            confirmDelete(`Truck ${item.truck_num}`, () => {
+            confirmDelete(`truck ${item.truck_num}`, () => {
               deleteItem(`truck/${item._id}`)
                 .then((json) => alert(json.message))
                 .then(() => navigation.goBack())
