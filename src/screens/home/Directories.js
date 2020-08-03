@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import TouchableList from '../components/TouchableList';
+import TouchableList from '../../components/TouchableList';
 
 export default function Directories({ navigation }) {
   const directories = [
