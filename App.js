@@ -27,10 +27,10 @@ export default function App() {
         <Stack.Screen name='ContactStack' component={ContactStack}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name='Trucks' component={TruckStack}
+        <Stack.Screen name='TruckStack' component={TruckStack}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name='Employees' component={EmployeeStack}
+        <Stack.Screen name='EmployeeStack' component={EmployeeStack}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

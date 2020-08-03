@@ -1,11 +1,17 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Input } from 'react-native-elements';
 
-export default function AddContact() {
+import ContactForm from './ContactForm';
+
+export default function AddContact({ route, navigation }) {
   return (
-    <View>
-      <Input />
-    </View>
+    <ContactForm
+      requestMethod='POST'
+      endpoint={`contact`}
+      params={route.params}
+      redirect={(item) => {
+        navigation.replace('View Contact', { item })
+      }}
+      navigation={navigation}
+    />
   )
 };

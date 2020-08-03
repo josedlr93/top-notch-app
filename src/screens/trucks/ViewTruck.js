@@ -1,47 +1,49 @@
 import React, { } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, Input } from 'react-native-elements';
 
 import ButtonGroup from '../../components/ButtonGroup';
 import { deleteItem } from '../../services/api';
 import confirmDelete from '../../services/confirmDelete';
 
-export default function ViewContact({ route, navigation }) {
+export default function ViewTruck({ route, navigation }) {
   const item = route.params.item;
-
   return (
     <View style={styles.container}>
-      <Input label='Name'
+      <Input label='Truck Number'
         disabled={true}
-        value={`${item.first_name}, ${item.last_name}`}
+        value={item.truck_num.toString()}
       />
-      <Input label='Email'
+      <Input label='VIN'
         disabled={true}
-        value={item.email}
+        value={item.vin}
       />
-      <Input label='Phone Number'
+      <Input label='Plate Number'
         disabled={true}
-        value={item.phone}
+        value={item.plate_num}
       />
-      <Input label='Address'
+      <Input label='CDL Required'
         disabled={true}
-        value={item.address}
+        value={item.cdl_required ? 'Yes' : 'No'}
+      />
+      <Input label='Service Date'
+        disabled={true}
+        value={item.service_date ? new Date(item.service_date).toLocaleString() : 'N/A'}
       />
       <ButtonGroup
         buttonOneProps={{
           title: 'Update',
-          onPress: () => navigation.navigate('Update Contact', { item })
+          onPress: () => navigation.navigate('Update Truck', { item })
         }}
         buttonTwoProps={{
           title: 'Delete',
           onPress: () => {
-            confirmDelete(`${item.first_name}, ${item.last_name}`, () => {
-              deleteItem(`contact/${item._id}`)
+            confirmDelete(`truck ${item.truck_num}`, () => {
+              deleteItem(`truck/${item._id}`)
                 .then((json) => alert(json.message))
                 .then(() => navigation.goBack())
-                .catch(console.error)
-            }
-            );
+                .catch(console.error);
+            });
           }
         }}
       />
