@@ -112,6 +112,7 @@ export default function ContactForm(props) {
               />
               <Input label='Phone Number'
                 onChangeText={handleChange('phone')}
+                maxLength={10}
                 errorStyle={styles.error}
                 errorMessage={touched.phone && errors.phone}
                 onBlur={handleBlur('phone')}

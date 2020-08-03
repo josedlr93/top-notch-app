@@ -7,6 +7,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import TruckTabs from './TruckTabs';
 import ViewTruck from '../../src/screens/trucks/ViewTruck';
 import AddTruck from '../../src/screens/trucks/AddTruck';
+import UpdateTruck from '../../src/screens/trucks/UpdateTruck';
 
 
 const Stack = createStackNavigator();
@@ -31,7 +32,7 @@ export default function TruckStack() {
       /> 
       <Stack.Screen name="View Truck" component={ViewTruck} />
       <Stack.Screen name='Add Truck' component={AddTruck} />
-      {/* <Stack.Screen name="Update Truck" component={UpdateTruck} /> */}
+      <Stack.Screen name="Update Truck" component={UpdateTruck} />
     </Stack.Navigator>
   );
 }

@@ -28,9 +28,14 @@ export default function TruckForm(props) {
   };
 
   const truckSchema = yup.object({
-    truckNum: yup.string()
+    truckNum: yup.number()
       .required('Truck number required'),
-    vin: yup.string(),
+    vin: yup.string()
+      .max(17)
+      .test('check-vin', 'Enter a valid VIN', (value) => {
+        return !value ? true : value.length === 17 ? true : false;
+      }),
+    plateNum: yup.string(),
     cdlRequired: yup.boolean(),
     serviceDate: yup.date(),
     showDatePicker: yup.boolean()
@@ -40,6 +45,7 @@ export default function TruckForm(props) {
     editItems(props.requestMethod, {
       truck_num: values.truckNum,
       vin: values.vin,
+      plate_num: values.plateNum,
       cdl_required: values.cdlRequired,
       service_date: values.serviceDate
     }, props.endpoint)
@@ -64,6 +70,7 @@ export default function TruckForm(props) {
           initialValues={{
             truckNum: item.truck_num,
             vin: item.vin,
+            plateNum: item.plate_num,
             cdlRequired: item.cdl_required || false,
             serviceDate: item.service_date,
           }}
@@ -79,12 +86,22 @@ export default function TruckForm(props) {
                 errorStyle={styles.error}
                 errorMessage={touched.truckNum && errors.truckNum}
                 onBlur={handleBlur('truckNum')}
-                value={values.truckNum}
+                value={values.truckNum ? values.truckNum.toString() : ''}
               />
               <Input label='VIN'
                 onChangeText={handleChange('vin')}
+                maxLength={17}
                 errorStyle={styles.error}
+                errorMessage={touched.vin && errors.vin}
+                onBlur={handleBlur('vin')}
                 value={values.vin}
+              />
+              <Input label='Plate Number'
+                onChangeText={handleChange('plateNum')}
+                errorStyle={styles.error}
+                errorMessage={touched.plateNum && errors.plateNum}
+                onBlur={handleBlur('plateNum')}
+                value={values.plateNum}
               />
               <DatePicker 
                 initialDateTime={values.serviceDate} 
@@ -104,7 +121,7 @@ export default function TruckForm(props) {
                 buttonTwoProps={{
                   title: 'Cancel',
                   onPress: () => {
-                    props.navigation.navigate('Contacts')
+                    props.navigation.navigate('Trucks')
                   }
                 }}
               />

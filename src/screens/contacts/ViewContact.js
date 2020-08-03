@@ -1,6 +1,6 @@
 import React, { } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Text, Input } from 'react-native-elements';
 
 import ButtonGroup from '../../components/ButtonGroup';
 import { deleteItem } from '../../services/api';
@@ -11,22 +11,22 @@ export default function ViewContacts({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.line}>
-        <Text>Name: </Text>
-        <Text>{item.first_name}, {item.last_name}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text>Email: </Text>
-        <Text>{item.email}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text>Phone: </Text>
-        <Text>{item.phone}</Text>
-      </View>
-      <View style={styles.line}>
-        <Text>Address: </Text>
-        <Text>{item.address}</Text>
-      </View>
+      <Input label='Name'
+        disabled={true}
+        value={`${item.first_name}, ${item.last_name}`}
+      />
+      <Input label='Email'
+        disabled={true}
+        value={item.email}
+      />
+      <Input label='Phone Number'
+        disabled={true}
+        value={item.phone}
+      />
+      <Input label='Address'
+        disabled={true}
+        value={item.address}
+      />
       <ButtonGroup
         buttonOneProps={{
           title: 'Update',
