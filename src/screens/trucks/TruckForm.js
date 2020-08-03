@@ -19,14 +19,6 @@ export default function TruckForm(props) {
   const params = props.params;
   const item = params ? params.item : {};
 
-  const constraints = {
-    emailAddress: {
-      email: {
-        message: "^Please enter a valid email address"
-      }
-    },
-  };
-
   const truckSchema = yup.object({
     truckNum: yup.number()
       .required('Truck number required'),

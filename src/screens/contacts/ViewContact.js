@@ -6,7 +6,7 @@ import ButtonGroup from '../../components/ButtonGroup';
 import { deleteItem } from '../../services/api';
 import confirmDelete from '../../services/confirmDelete';
 
-export default function ViewContacts({ route, navigation }) {
+export default function ViewContact({ route, navigation }) {
   const item = route.params.item;
 
   return (

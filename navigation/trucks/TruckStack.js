@@ -30,8 +30,8 @@ export default function TruckStack() {
           )
         })}
       /> 
-      <Stack.Screen name="View Truck" component={ViewTruck} />
       <Stack.Screen name='Add Truck' component={AddTruck} />
+      <Stack.Screen name="View Truck" component={ViewTruck} />
       <Stack.Screen name="Update Truck" component={UpdateTruck} />
     </Stack.Navigator>
   );

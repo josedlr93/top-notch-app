@@ -12,7 +12,7 @@ import * as yup from 'yup';
 import { validate } from 'validate.js';
 
 import ButtonGroup from '../../components/ButtonGroup';
-import { editItems as editItems } from '../../services/api';
+import { editItems } from '../../services/api';
 
 export default function ContactForm(props) {
   const params = props.params;
@@ -42,7 +42,8 @@ export default function ContactForm(props) {
       .max(10)
       .test('check-phone', 'Enter a valid phone number', (value) => {
         return !value ? true : value.length === 10 ? true : false;
-      })
+      }),
+    address: yup.string()
   });
 
   const submitItem = (values, setSubmitting) => {
