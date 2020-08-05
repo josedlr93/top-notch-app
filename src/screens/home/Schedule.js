@@ -70,6 +70,7 @@ export default function Schedule({ navigation }) {
       ]
     },
   ];  
+  console.log(fetchedJobs[0])
 
   const getJobs = (date) => {
     const expandedDate = {
