@@ -96,6 +96,7 @@ export default function TruckForm(props) {
                 value={values.plateNum}
               />
               <DatePicker 
+                label={'Service Date'}
                 initialDateTime={values.serviceDate} 
                 handleChange={(newDate) => setFieldValue('serviceDate', newDate)}
               />

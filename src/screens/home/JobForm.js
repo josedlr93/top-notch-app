@@ -13,6 +13,7 @@ import { validate } from 'validate.js';
 
 import ButtonGroup from '../../components/ButtonGroup';
 import { editItems } from '../../services/api';
+import { DatePicker } from '../../components/DatePicker';
 
 export default function JobForm(props) {
   const params = props.params;
@@ -21,6 +22,7 @@ export default function JobForm(props) {
   const jobSchema = yup.object({
     name: yup.string()
       .required('Name required'),
+    serviceDate: yup.date(),
   });
 
   const submitItem = (values, setSubmitting) => {
@@ -36,13 +38,14 @@ export default function JobForm(props) {
         <Formik
           initialValues={{
             name: item.first_name,
+            date: item.date,
           }}
           validationSchema={jobSchema}
           onSubmit={(values, { setSubmitting }) => {
             submitItem(values, setSubmitting);
           }}
         >
-          {({ values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit }) => (
+          {({ values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
             <View>
               <Input label='Customer Name'
                 onChangeText={handleChange('name')}
@@ -52,7 +55,11 @@ export default function JobForm(props) {
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
-              
+              <DatePicker
+                label={'Date/Time'}
+                initialDateTime={values.date}
+                handleChange={(newDate) => setFieldValue('date', newDate)}
+              />
               <ButtonGroup
                 buttonOneProps={{
                   title: 'Submit',

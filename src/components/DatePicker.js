@@ -3,7 +3,7 @@ import { View, Button, Platform, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Input, Icon } from 'react-native-elements';
 
-export const DatePicker = ({ initialDateTime, handleChange }) => {
+export const DatePicker = ({ initialDateTime, handleChange, label }) => {
   const [date, setDate] = useState(initialDateTime);
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -39,7 +39,7 @@ export const DatePicker = ({ initialDateTime, handleChange }) => {
           onChange={onChange}
         />
       )}
-      <Input label='Service Date'
+      <Input label={label}
         value={date ? new Date(date).toLocaleString() : ''}
         disabled={true}
         rightIcon={
