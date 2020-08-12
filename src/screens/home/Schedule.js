@@ -27,10 +27,13 @@ export default function Schedule({ navigation }) {
       _id: '_id-02',
       name: 'James Doe',
       date: new Date('2020-08-05'),
-      truck: {
-        truck_num: 1,
-        cdl_required: false
-      },
+      trucks: [
+        {
+          _id: '_id-01',
+          truck_num: 1,
+          cdl_required: false
+        }
+      ],
       employees: [
         {
           _id: '_id-01',
@@ -42,10 +45,13 @@ export default function Schedule({ navigation }) {
       _id: '_id-01',
       name: 'John Doe',
       date: new Date('2020-08-05'),
-      truck: {
-        truck_num: 1,
-        cdl_required: false
-      },
+      trucks: [
+        {
+          _id: '_id-01',
+          truck_num: 1,
+          cdl_required: false
+        }
+      ],
       employees: [
         {
           _id: '_id-01',
@@ -57,10 +63,13 @@ export default function Schedule({ navigation }) {
       _id: '_id-03',
       name: 'Jane Doe',
       date: new Date('2020-09-05'),
-      truck: {
-        truck_num: 1,
-        cdl_required: false
-      },
+      trucks: [
+        {
+          _id: '_id-01',
+          truck_num: 1,
+          cdl_required: false
+        }
+      ],
       employees: [
         {
           _id: '_id-01',
@@ -70,7 +79,6 @@ export default function Schedule({ navigation }) {
       ]
     },
   ];  
-  console.log(fetchedJobs[0])
 
   const getJobs = (date) => {
     const expandedDate = {
@@ -113,10 +121,28 @@ export default function Schedule({ navigation }) {
                 title={'Time'}
                 subtitle={getTime(item.date)}
               />
-              <ListItem
-                title={`Truck ${item.truck.truck_num.toString()}`}
-                subtitle={item.truck.cdl_required ? 'CDL required' : 'CDL not required'}
-              />
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor="#DDDDDD"
+                onPress={() => toggleOverlay(
+                  <FlatList
+                    keyExtractor={(item, index) => index.toString()}
+                    data={item.trucks}
+                    renderItem={({ item }) =>
+                      (<ListItem
+                        title={`Truck ${item.truck_num.toString()}`}
+                        subtitle={item.cdl_required ? 'CDL required' : 'CDL not required'}
+                        bottomDivider
+                      />)
+                    }
+                  />
+                )}
+              >
+                <ListItem
+                  title={`Trucks (${item.trucks.length})`}
+                  chevron={true}
+                />
+              </TouchableHighlight>
               <TouchableHighlight
                 activeOpacity={0.6}
                 underlayColor="#DDDDDD"
