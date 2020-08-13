@@ -10,6 +10,7 @@ import { Agenda } from 'react-native-calendars';
 
 import getTime from '../../services/getTime';
 import {fetchedJobs} from './fetchedJobs';
+import ButtonGroup from '../../components/ButtonGroup';
 
 export default function Schedule({ navigation }) {
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -108,6 +109,18 @@ export default function Schedule({ navigation }) {
                   chevron={true}
                 />
               </TouchableHighlight>
+              <ButtonGroup
+                buttonOneProps={{
+                  title: 'Update',
+                  onPress: () => console.log(`update ${item._id}`)
+                }}
+                buttonTwoProps={{
+                  title: 'Delete',
+                  onPress: () => {
+                    console.log(`delete ${item._id}`)
+                  }
+                }}
+              />
             </Card>
           )
         }}
