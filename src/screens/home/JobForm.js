@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  ActivityIndicator
 } from 'react-native';
 import { Input } from 'react-native-elements';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -12,27 +13,38 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import ButtonGroup from '../../components/ButtonGroup';
-import { editItems } from '../../services/api';
 import { DatePicker } from '../../components/DatePicker';
+import { getItems, editItems } from '../../services/api';
+import { addJob } from './fetchedJobs';
 
 export default function JobForm(props) {
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [trucks, setTrucks] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const params = props.params;
   const item = params ? params.item : {};
 
-  const fetchedTrucks = [
-    {
-      _id: '_id-01',
-      cdl_required: false,
-      truck_num: 1,
-    },
-    {
-      _id: '_id-02',
-      cdl_required: false,
-      truck_num: 2,
-    },
-  ]
+  useEffect(() => {
+    getItems('truck')
+      .then((json) => {
+        setTrucks(json);
+      })
+      .then(() => {
+        getItems('employee')
+          .then((json) => {
+            console.log(json)
+            setEmployees(json);
+          })
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(true);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-  const truckList = fetchedTrucks.map(truck => {
+  const truckList = trucks.map(truck => {
     let listItem = {
       label: `Truck ${truck.truck_num}`,
       value: truck
@@ -40,22 +52,9 @@ export default function JobForm(props) {
     return listItem;
   })
 
-  const fetchedEmployees = [
-    {
-      _id: "_id-01",
-      hasCdl: false,
-      name: "Jose, De La Rosa",
-    },
-    {
-      _id: "_id-02",
-      hasCdl: false,
-      name: "Doug, Ziemba",
-    },
-  ]
-
-  const employeeList = fetchedEmployees.map(employee => {
+  const employeeList = employees.map(employee => {
     let listItem = {
-      label: `${employee.name}`,
+      label: `${employee.first_name}, ${employee.last_name}`,
       value: employee
     }
     return listItem;
@@ -88,7 +87,19 @@ export default function JobForm(props) {
   });
 
   const submitItem = (values, setSubmitting) => {
-    console.log(values);
+    const submitJob = new Promise((resolve, reject) => {
+      addJob({
+        name: values.name,
+        trucks: values.trucks,
+        employees: values.employees,
+        date: values.date
+      })
+      resolve('success')
+    });
+    submitJob.then(() => {
+      console.log('succeeded')
+      props.redirect()
+    })
     setSubmitting(false);
   };
 
@@ -97,85 +108,88 @@ export default function JobForm(props) {
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Formik
-          initialValues={{
-            name: item.first_name,
-            date: item.date,
-            trucks: item.trucks,
-            employees: item.employees
-          }}
-          validationSchema={jobSchema}
-          onSubmit={(values, { setSubmitting }) => {
-            submitItem(values, setSubmitting);
-          }}
-        >
-          {({ values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
-            <View>
-              <Input label='Customer Name'
-                onChangeText={handleChange('name')}
-                autoCapitalize='words'
-                errorStyle={styles.error}
-                errorMessage={touched.name && errors.name}
-                onBlur={handleBlur('name')}
-                value={values.name}
-              />
-              <DropDownPicker
-                placeholder='Select trucks'
-                defaultValue={values.trucks}
-                items={truckList}
-                multiple={true}
-                multipleText="Trucks selected (%d)"
-                min={1}
-                containerStyle={{ height: 50, marginBottom: 20 }}
-                itemStyle={{
-                  justifyContent: 'flex-start'
-                }}
-                onChangeItem={(item) => {
-                  setFieldValue('trucks', item);
-                }}
-              />
-              <DropDownPicker
-                placeholder='Select employees'
-                defaultValue={values.employees}
-                items={employeeList}
-                multiple={true}
-                multipleText="Employees selected (%d)"
-                min={1}
-                containerStyle={{ height: 50, marginBottom: 20 }}
-                itemStyle={{
-                  justifyContent: 'flex-start'
-                }}
-                onChangeItem={(item) => {
-                  setFieldValue('employees', item);
-                }}
-              />
-              <DatePicker
-                label={'Date/Time'}
-                initialDateTime={values.date}
-                handleChange={(newDate) => setFieldValue('date', newDate)}
-                errorStyle={styles.error}
-                errorMessage={touched.date && errors.date}
-                onBlur={handleBlur('date')}
-              />
-              <ButtonGroup
-                buttonOneProps={{
-                  title: 'Submit',
-                  onPress: handleSubmit,
-                  disabled: isSubmitting
-                }}
-                buttonTwoProps={{
-                  title: 'Cancel',
-                  onPress: () => {
-                    props.navigation.navigate('Schedule');
-                  }
-                }}
-              />
-            </View>
-          )}
-        </Formik>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      {isLoading ? <ActivityIndicator /> : error ? <Text>Error</Text> : (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Formik
+            initialValues={{
+              name: item.first_name,
+              date: item.date,
+              trucks: item.trucks,
+              employees: item.employees
+            }}
+            validationSchema={jobSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              submitItem(values, setSubmitting);
+            }}
+          >
+            {({ values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
+              <View>
+                <Input label='Customer Name'
+                  onChangeText={handleChange('name')}
+                  autoCapitalize='words'
+                  errorStyle={styles.error}
+                  errorMessage={touched.name && errors.name}
+                  onBlur={handleBlur('name')}
+                  value={values.name}
+                />
+                <DropDownPicker
+                  placeholder='Select trucks'
+                  defaultValue={values.trucks}
+                  items={truckList}
+                  multiple={true}
+                  multipleText="Trucks selected (%d)"
+                  min={1}
+                  containerStyle={{ height: 50, marginBottom: 20 }}
+                  itemStyle={{
+                    justifyContent: 'flex-start'
+                  }}
+                  onChangeItem={(item) => {
+                    setFieldValue('trucks', item);
+                  }}
+                />
+                <DropDownPicker
+                  placeholder='Select employees'
+                  defaultValue={values.employees}
+                  items={employeeList}
+                  multiple={true}
+                  multipleText="Employees selected (%d)"
+                  min={1}
+                  containerStyle={{ height: 50, marginBottom: 20 }}
+                  itemStyle={{
+                    justifyContent: 'flex-start'
+                  }}
+                  onChangeItem={(item) => {
+                    setFieldValue('employees', item);
+                  }}
+                />
+                <DatePicker
+                  label={'Date/Time'}
+                  initialDateTime={values.date}
+                  handleChange={(newDate) => setFieldValue('date', newDate)}
+                  errorStyle={styles.error}
+                  errorMessage={touched.date && errors.date}
+                  onBlur={handleBlur('date')}
+                />
+                <ButtonGroup
+                  buttonOneProps={{
+                    title: 'Submit',
+                    onPress: handleSubmit,
+                    disabled: isSubmitting
+                  }}
+                  buttonTwoProps={{
+                    title: 'Cancel',
+                    onPress: () => {
+                      props.navigation.navigate('Schedule');
+                    }
+                  }}
+                />
+              </View>
+            )}
+          </Formik>
+        </TouchableWithoutFeedback>
+
+      )}
+      </KeyboardAvoidingView>
   )
 };
 

@@ -8,8 +8,8 @@ export default function AddJob({ route, navigation }) {
       requestMethod='POST'
       endpoint={`job`}
       params={route.params}
-      redirect={(item) => {
-        navigation.replace('Schedule', { item })
+      redirect={() => {
+        navigation.replace('Home', {screen: 'Schedule'});
       }}
       navigation={navigation}
     />

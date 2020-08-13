@@ -13,24 +13,25 @@ export default function HomeStack() {
   return (
     <Stack.Navigator mode='modal' >
       <Stack.Screen name='Home Tabs' component={HomeTabs}
+        
         options={({ route, navigation }) => ({
           headerTitle: 'Home',
           headerLeft: null,
           headerRight: () => {
-            if (getFocusedRouteNameFromRoute(route) === 'Schedule') {
-              return (
-                <Icon
-                  color='#fff'
-                  name='add-circle-outline'
-                  containerStyle={{
-                    marginRight: 15
-                  }}
-                  onPress={() => navigation.navigate('Add Job')}
-                />
-              )
-            } else {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? 'Schedule';
+            if (routeName !== 'Schedule') {
               return null;
             }
+            return (
+              <Icon
+                color='#fff'
+                name='add-circle-outline'
+                containerStyle={{
+                  marginRight: 15
+                }}
+                onPress={() => navigation.navigate('Add Job')}
+              />
+            )
           }
         })}
       />

@@ -9,6 +9,7 @@ import { Text, Card, ListItem, Overlay } from 'react-native-elements';
 import { Agenda } from 'react-native-calendars';
 
 import getTime from '../../services/getTime';
+import {fetchedJobs} from './fetchedJobs';
 
 export default function Schedule({ navigation }) {
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -20,65 +21,7 @@ export default function Schedule({ navigation }) {
   const toggleOverlay = (element) => {
     setOverlayElement(element);
     setOverlayVisible(!overlayVisible);
-  }
-
-  const fetchedJobs = [
-    {
-      _id: '_id-02',
-      name: 'James Doe',
-      date: new Date('2020-08-05'),
-      trucks: [
-        {
-          _id: '_id-01',
-          truck_num: 1,
-          cdl_required: false
-        }
-      ],
-      employees: [
-        {
-          _id: '_id-01',
-          name: 'Jose, De La Rosa',
-          hasCdl: false
-        }
-      ]
-    }, {
-      _id: '_id-01',
-      name: 'John Doe',
-      date: new Date('2020-08-05'),
-      trucks: [
-        {
-          _id: '_id-01',
-          truck_num: 1,
-          cdl_required: false
-        }
-      ],
-      employees: [
-        {
-          _id: '_id-01',
-          name: 'Jose, De La Rosa',
-          hasCdl: false
-        }
-      ]
-    }, {
-      _id: '_id-03',
-      name: 'Jane Doe',
-      date: new Date('2020-09-05'),
-      trucks: [
-        {
-          _id: '_id-01',
-          truck_num: 1,
-          cdl_required: false
-        }
-      ],
-      employees: [
-        {
-          _id: '_id-01',
-          name: 'Jose, De La Rosa',
-          hasCdl: false
-        }
-      ]
-    },
-  ];  
+  }  
 
   const getJobs = (date) => {
     const expandedDate = {
